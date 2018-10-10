@@ -1,19 +1,26 @@
 # unique products using n positive integers not exceeding m
 
-primes_under_30 = [2,3,5,7,11,13,17,19,23,29]
-primes_under_9 = [2,3,5,7]
+import itertools
 
-def additional_products(primes, m, n):
-  counter = 0
-  for i in range(m):
-    counter += n - 1  
-  return counter
-  
-def F(m, n, primes_under_m):
-  counter = 0
-  for i in range(len(primes_under_m)):
-    counter += additional_products(primes_under_m[:i+1], m, n) 
-  return counter 
+def findsubsets(S,m):
+  return set(itertools.combinations(S, m)) 
 
-print F(30,2, primes_under_30)
-print F(9,2,primes_under_9)
+def product(lst):
+  product = 1
+  for item in lst:
+    product *= item
+  return product
+
+def unique_products(m, n):
+  super_set = []
+  for i in range(1, m+1):
+    super_set.append([i]*n)
+  flat_set = [item for subset in super_set for item in subset] 
+  subsets = list(findsubsets(flat_set,n))
+  products = [product(subset) for subset in subsets]
+  return len(list(set(products))) 
+ 
+print unique_products(9,2) 
+print unique_products(30,2)
+
+
